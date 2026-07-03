@@ -1,0 +1,13 @@
+{
+  "name": "From the day I met you",
+  "short_name": "From the day",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "description": "Beautiful live counters showing exactly how long it's been since you met someone special. Works offline.",
+  "icons": [
+    { "src": "icon192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
