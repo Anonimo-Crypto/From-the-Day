@@ -1,44 +1,20 @@
-const CACHE_NAME = 'from-the-day-v2';
-const ASSETS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
-  '/language.json',
-  '/icon192.png',
-  '/icon512.png'
-];
+const CACHE_NAME = 'from-the-day-v5';
+const ASSETS = ['./', 'index.html', 'style.css', 'script.js', 'manifest.json', 'language.json', 'icon192.png', 'icon512.png'];
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
-  );
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
   self.skipWaiting();
 });
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-    ))
-  );
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
   self.clients.claim();
 });
-
-self.addEventListener('fetch', event => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) return cached;
-      return fetch(req).then(resp => {
-        return caches.open(CACHE_NAME).then(cache => {
-          try { cache.put(req, resp.clone()); } catch(e){}
-          return resp;
-        });
-      }).catch(() => caches.match('/index.html'));
-    })
-  );
+// stale-while-revalidate: responde rápido desde caché y actualiza en segundo plano
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(caches.open(CACHE_NAME).then(async cache => {
+    const cached = await cache.match(e.request);
+    const net = fetch(e.request).then(r => { if (r.ok) cache.put(e.request, r.clone()); return r; }).catch(() => cached || cache.match('index.html'));
+    return cached || net;
+  }));
 });

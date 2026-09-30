@@ -16,50 +16,42 @@
         <h1 data-i18n="appTitle">From the day<br>I met you</h1>
       </div>
       <div class="actions">
-        <button id="addBtn" class="btn primary">+ Add</button>
-        <button id="exportBtn" class="btn ghost">Export</button>
-        <button id="importBtn" class="btn ghost">Import</button>
-        <button id="langBtn" class="btn ghost" title="Change language">🌐</button>
-        <button id="clearAllBtn" class="btn ghost">Delete all</button>
+        <button id="addBtn" class="btn primary"></button>
+        <button id="exportBtn" class="btn ghost"></button>
+        <button id="importBtn" class="btn ghost"></button>
+        <button id="langBtn" class="btn ghost"></button>
+        <button id="clearAllBtn" class="btn ghost"></button>
         <input type="file" id="importFile" accept=".json" hidden>
       </div>
     </header>
-
-    <section class="intro">
-      <p data-i18n="introText">Track the exact time since you met someone special. The counter updates live in decades, years, months, weeks, days, hours, minutes and seconds.</p>
-    </section>
-
-    <section id="list" class="list">
-      <!-- counters injected here -->
-    </section>
-
+    <section class="intro"><p data-i18n="introText"></p></section>
+    <section id="list" class="names"></section>
     <footer class="footer">
-      <small data-i18n="footerText">Works offline as a PWA. Save multiple counters.</small>
+      <small data-i18n="footerText"></small>
       <div class="signature">Desarrollado por Oscar - 2026</div>
     </footer>
   </main>
 
-  <!-- Add modal -->
-  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <!-- Formulario reutilizable (persona / marcador) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-card">
-      <h2 id="modalTitle" data-i18n="modalTitle">Add new counter</h2>
+      <h2 id="modalTitle"></h2>
       <form id="addForm">
-        <label>
-          <span data-i18n="nameLabel">Person's name</span>
-          <input id="personName" type="text" required maxlength="60" placeholder="e.g. Ana">
-        </label>
-        <label>
-          <span data-i18n="dateLabel">Date and time you met them</span>
-          <input id="personDate" type="datetime-local" required>
-        </label>
+        <label><span id="nameLabel"></span><input id="personName" type="text" required maxlength="60"></label>
+        <label><span id="dateLabel"></span><input id="personDate" type="datetime-local" required></label>
+        <label id="relWrap"><span id="relLabel"></span><input id="personRel" type="text" maxlength="40"></label>
         <div class="modal-actions">
-          <button type="submit" class="btn primary" data-i18n="saveButton">Save</button>
-          <button type="button" id="cancelBtn" class="btn ghost">Cancel</button>
+          <button type="button" id="cancelBtn" class="btn ghost"></button>
+          <button type="submit" class="btn primary" data-i18n="saveButton"></button>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- Panel de detalle -->
+  <div id="detail" class="modal hidden" role="dialog" aria-modal="true">
+    <article class="sheet" id="sheet"></article>
+  </div>
   <script src="script.js" defer></script>
 </body>
 </html>
